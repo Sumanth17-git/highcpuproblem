@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: highcpu-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: highcpu
+  template:
+    metadata:
+      labels:
+        app: highcpu
+    spec:
+      containers:
+      - name: highcpu-container
+        image: sumanth17121988/highcpuproblem:1
+        ports:
+        - containerPort: 9092
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: highcpu-service
+spec:
+  selector:
+    app: highcpu
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 9092
+    targetPort: 9092
